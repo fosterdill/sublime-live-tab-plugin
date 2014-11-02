@@ -1,22 +1,33 @@
 import SocketServer
 from random import random
+import pickle
 
 class LiveHandler(SocketServer.BaseRequestHandler, object):
   def _generate_ip_key(self):
     return self.client_address[0] + '-' + str(int(random() * 1000000))
 
   def handle(self):
-    self.ip_key = self._generate_ip_key()
-    self.server.connections[self.ip_key] = self.request.sendall
+    self._id = self._generate_ip_key()
 
     while self.server.running:
-      data = self.request.recv(1024)
-      connections = self.server.connections
+      data = self.request.recv(2048)
+      sessions = self.server.sessions
 
       if (not data):
         break
 
-      for ip_key in connections:
-        connections[ip_key]("{} says: {} ".format(self.ip_key, data))
+      parsed_data = pickle.loads(data)
+      session_id = parsed_data['session_id']
+
+      if (session_id in self.server.sessions):
+        self.server.sessions[session_id][self._id] = self.request.sendall
+      else:
+        self.server.sessions[session_id] = {self._id: self.request.sendall}
+
+      print(parsed_data)
+
+      for handler_id in sessions[session_id]:
+        if (handler_id != self._id):
+          sessions[session_id][handler_id](pickle.dumps(parsed_data, protocol = 2))
 
     print("{} closed connection.".format(self.client_address[0]))

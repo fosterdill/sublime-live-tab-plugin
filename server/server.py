@@ -5,7 +5,7 @@ from LiveHandler import LiveHandler
 
 if __name__ == "__main__":
 
-  HOST, PORT = "0.0.0.0", 9999
+  HOST, PORT = "0.0.0.0", 9992
   server = LiveServer((HOST, PORT), LiveHandler)
 
   def signal_handler(signal, frame):
