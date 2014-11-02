@@ -10,7 +10,7 @@ class LiveHandler(SocketServer.BaseRequestHandler, object):
     self._id = self._generate_ip_key()
 
     while self.server.running:
-      data = self.request.recv(2048)
+      data = self.request.recv(4096)
       sessions = self.server.sessions
 
       if (not data):

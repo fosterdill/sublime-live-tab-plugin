@@ -60,7 +60,7 @@ class Connection:
 
   def _connection_listener(self):
     while True:
-      data = self._sock.recv(2048)
+      data = self._sock.recv(4096)
       if (data):
         self._callback(pickle.loads(data))
 
