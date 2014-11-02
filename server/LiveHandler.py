@@ -20,13 +20,20 @@ class LiveHandler(SocketServer.BaseRequestHandler, object):
       session_id = parsed_data['session_id']
 
       if (session_id in self.server.sessions):
-        self.server.sessions[session_id][self._id] = self.request.sendall
-      else:
-        self.server.sessions[session_id] = {self._id: self.request.sendall}
+        if (self._id in self.server.sessions[session_id]):
+          for handler_id in sessions[session_id]:
+            if (handler_id != 'text' and handler_id != self._id):
+              data = pickle.dumps(parsed_data, protocol = 2)
+              sessions[session_id]['text'] = parsed_data['text']
+              sessions[session_id][handler_id](data)
+        else:
+          self.server.sessions[session_id][self._id] = self.request.sendall
+          self.request.sendall(pickle.dumps({'text': sessions[session_id]['text']}, protocol = 2))
 
-      for handler_id in sessions[session_id]:
-        if (handler_id != self._id):
-          sessions[session_id][handler_id](pickle.dumps(parsed_data, protocol = 2))
+      else:
+        data = pickle.dumps(parsed_data, protocol = 2)
+        self.server.sessions[session_id] = {'text': parsed_data['text'], self._id: self.request.sendall}
+
 
     del self.server.sessions[session_id][self._id]
     print("{} closed connection.".format(self.client_address[0]))
