@@ -74,6 +74,7 @@ class LivetabCommand(sublime_plugin.TextCommand):
     global sessions
     session = Session(self.view, edit, session_id)
     sessions[self.view.id()] = session
+    print("Success! Session: " + str(session.id()))
     
 
 
