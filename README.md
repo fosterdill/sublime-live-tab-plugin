@@ -7,7 +7,7 @@ To use:
 1. clone Repo
 2. Run `git clone https://github.com/fosterdill/sublime-live-tab-plugin.git && cd sublime-live-tab-plugin/ && cp plugin/ST2/Livetab.py ~/Library/Application\ Support/Sublime\ Text\ 2/Packages/User/`
 3. Reload Sublime Text
-4. run `view.run_command('livetab', {'session_id': '[anything here]'})`
+4. run `view.run_command('livetab', {'session_id': '[anything here]'})` in Sublime Text console
 5. give the session_id you chose to anyone to start collaborating
 
 
