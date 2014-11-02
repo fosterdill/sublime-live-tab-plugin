@@ -28,4 +28,5 @@ class LiveHandler(SocketServer.BaseRequestHandler, object):
         if (handler_id != self._id):
           sessions[session_id][handler_id](pickle.dumps(parsed_data, protocol = 2))
 
+    del self.server.sessions[session_id][self._id]
     print("{} closed connection.".format(self.client_address[0]))

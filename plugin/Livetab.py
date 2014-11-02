@@ -10,7 +10,8 @@ from functools import partial
 
 
 
-HOST = "localhost"
+HOST = "54.187.58.214"
+# 54.187.58.214
 PORT = 9992
 CLIENT = 'client'
 SERVER = 'server'
@@ -60,7 +61,8 @@ class Connection:
   def _connection_listener(self):
     while True:
       data = self._sock.recv(2048)
-      self._callback(pickle.loads(data))
+      if (data):
+        self._callback(pickle.loads(data))
 
 
 class ReplaceCommand(sublime_plugin.TextCommand):
