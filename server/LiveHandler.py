@@ -21,10 +21,10 @@ class LiveHandler(SocketServer.BaseRequestHandler, object):
 
       if (session_id in self.server.sessions):
         if (self._id in self.server.sessions[session_id]):
+          sessions[session_id]['text'] = parsed_data['text']
           for handler_id in sessions[session_id]:
             if (handler_id != 'text' and handler_id != self._id):
               data = pickle.dumps(parsed_data, protocol = 2)
-              sessions[session_id]['text'] = parsed_data['text']
               sessions[session_id][handler_id](data)
         else:
           self.server.sessions[session_id][self._id] = self.request.sendall
