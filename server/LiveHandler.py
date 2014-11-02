@@ -24,8 +24,6 @@ class LiveHandler(SocketServer.BaseRequestHandler, object):
       else:
         self.server.sessions[session_id] = {self._id: self.request.sendall}
 
-      print(parsed_data)
-
       for handler_id in sessions[session_id]:
         if (handler_id != self._id):
           sessions[session_id][handler_id](pickle.dumps(parsed_data, protocol = 2))
