@@ -1,5 +1,7 @@
 #Livetab Sublime Text 2/3 Plugin
 
+Sublime Text plugin that allow you to share tabs with other people, for realtime editing. Supports multiple sessions.
+
 Not currently in Package Control
 
 To use:
